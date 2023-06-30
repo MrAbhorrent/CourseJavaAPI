@@ -37,12 +37,14 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Калькулятор");
-                    System.out.println("Введите арифмитическое выражение (без скобок)");
+                    System.out.println("Введите арифметическое выражение (без скобок) и нажмите <Enter>");
                     String arithmeticEquation = scanner.nextLine();
-
-                    Calculator.evaluate(arithmeticEquation);
+                    System.out.printf("Результат вычисления - %.2f \n", Calculator.evaluate(arithmeticEquation));
                     break;
                 case 4:
+//                    System.out.println("Введите уравнение вида q + w = e, q, w, e >= 0. Некоторые цифры могут быть заменены знаком вопроса, например, 2? + ?5 = 69.");
+//                    String queryArithmetic = scanner.nextLine();
+                    System.out.println("Задача не решена");
                     break;
                 case 0:
                     flag = false;
