@@ -1,8 +1,5 @@
 package Seminar01;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,19 +8,16 @@ public class Calculator {
     static List<String> operatorList = Arrays.asList("+", "-", "/", "*");
 
     public static float evaluate(String equation) {
-        float result = 0;
-        calculateOpetations(equation);
-        return result;
+        return  calculateOperations(equation);
     }
 
     private static String[] parseString(String str, String regex) {
-        String[] result = str
+        return str
                 .replace(" ", "")
                 .split(regex);
-        return result;
     }
 
-    private static float calculateOpetations(String str) {
+    private static float calculateOperations(String str) {
         float result = 0f;
         // Ищем все операции в строке
         String[] numberOperation = parseString(str, "\\*|\\/|\\+|\\-");
@@ -62,9 +56,9 @@ public class Calculator {
             // Теперь необходимо выполнить сложения и вычитания
             result = resultOperation[0];
             for (int i = 1; i < tempMathOperation.length; i++) {
-                if (tempMathOperation != null && tempMathOperation[i].equals("+")) {
+                if (tempMathOperation[i] != null && tempMathOperation[i].equals("+")) {
                     result += resultOperation[i];
-                } else if (tempMathOperation != null && tempMathOperation[i].equals("-")) {
+                } else if (tempMathOperation[i] != null && tempMathOperation[i].equals("-")) {
                     result -= resultOperation[i];
                 }
             }
