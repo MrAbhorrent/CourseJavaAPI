@@ -1,5 +1,7 @@
 package Seminar01;
 
+import Utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +21,7 @@ public class Main {
         int choose_task;
         while (flag) {
             choose_task = menu();
-            Divider('=', 40);
+            Utils.Divider('=', 40);
             Scanner scanner = new Scanner(System.in);
             System.out.printf("Выбран вариант - %d ", choose_task);
             System.out.println();
@@ -42,9 +44,10 @@ public class Main {
                     System.out.printf("Результат вычисления - %.2f \n", Calculator.evaluate(arithmeticEquation));
                     break;
                 case 4:
-//                    System.out.println("Введите уравнение вида q + w = e, q, w, e >= 0. Некоторые цифры могут быть заменены знаком вопроса, например, 2? + ?5 = 69.");
-//                    String queryArithmetic = scanner.nextLine();
-                    System.out.println("Задача не решена");
+                    System.out.println("Введите уравнение вида q + w = e, q, w, e >= 0. Некоторые цифры могут быть заменены знаком вопроса, например, 2? + ?5 = 69.");
+                    String queryArithmetic = scanner.nextLine();
+                    System.out.println(SolveEquation.Solve(queryArithmetic));
+//                    System.out.println("Задача не решена");
                     break;
                 case 0:
                     flag = false;
@@ -53,15 +56,6 @@ public class Main {
                     System.out.println("Введите число из диапазона от 1 до 4 или 0.");
             }
         }
-    }
-
-
-    public static void Divider(char symbol, int length) {
-        StringBuilder builder = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            builder.append(symbol);
-        }
-        System.out.println(builder);
     }
 
     private static int menu() {
