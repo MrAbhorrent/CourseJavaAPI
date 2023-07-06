@@ -1,13 +1,18 @@
 package Seminar01;
 
+import Utils.Utils;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class Calculator {
 
     static List<String> operatorList = Arrays.asList("+", "-", "/", "*");
+    static String logFileName = "logCalc.log";
 
     public static float evaluate(String equation) {
+        String logString = String.format("На вычисление передано выражение - %s", equation);
+        Utils.SaveLogFile(logFileName, logString);
         return  calculateOperations(equation);
     }
 
@@ -21,12 +26,8 @@ public class Calculator {
         float result = 0f;
         // Ищем все операции в строке
         String[] numberOperation = parseString(str, "\\*|\\/|\\+|\\-");
-        //List<String> numberOperationList = new ArrayList(Arrays.asList(numberOperation));
         // Ищем все числа в строке
         String[] mathOperation = parseString(str, "[^\\*|^\\/|^\\+|^\\-]+");
-        //List<Character> mathOperationList = new ArrayList(Arrays.asList(mathOperation));
-//        System.out.println(numberOperationList);
-//        System.out.println(mathOperationList);
 
         if (mathOperation.length > 1) {
             // Получили массив из чисел
@@ -63,6 +64,7 @@ public class Calculator {
                 }
             }
         }
+        Utils.SaveLogFile(logFileName, "Результат вычисления - " + result);
         return result;
     }
 }

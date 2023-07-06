@@ -3,15 +3,16 @@ package Seminar02;
 
 import Utils.Utils;
 import jdk.internal.util.xml.impl.Pair;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
@@ -39,6 +40,7 @@ public class Main {
         Task2();
         Utils.Divider('=', 80);
         Task3();
+        Utils.Divider('=', 80);
     }
 
     private static void Task1() {
@@ -101,8 +103,9 @@ public class Main {
     }
 
     private static int[] BubbleSort(int[] array) {
+        String nameLogFile = "BubbleSort.log";
         int[] result = array;
-        SaveLogFile("Original array => " + Arrays.toString(result));
+        Utils.SaveLogFile(nameLogFile, "Original array => " + Arrays.toString(result) + "\n");
         for (int i = result.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (result[j] > result[j + 1]) {
@@ -111,23 +114,78 @@ public class Main {
                     result[j + 1] = temp;
                 }
             }
-            SaveLogFile("Итерация - " + (result.length - i) + " => " + Arrays.toString(result));
+            Utils.SaveLogFile(nameLogFile, "Итерация - " + (result.length - i) + " => " + Arrays.toString(result));
         }
         return result;
     }
+    
+    private static void Task3() {
+        System.out.println("Задача 3.");
+        String incomingString = "[{\"фамилия\":\"Иванов\",\"оценка\":\"5\",\"предмет\":\"Математика\"},{\"фамилия\":\"Петрова\",\"оценка\":\"4\",\"предмет\":\"Информатика\"},{\"фамилия\":\"Краснов\",\"оценка\":\"5\",\"предмет\":\"Физика\"}]";
+        List<String> groupLog = listStudentRecords(incomingString);
 
-    private static void SaveLogFile(String saveLine) {
-        File logfile = new File("BubbleSort.log");
-        try (FileWriter fileWriter = new FileWriter(logfile, true)) {
-            fileWriter.append(saveLine);
-            fileWriter.flush();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        for (int i = 0; i < groupLog.size(); i++) {
+            String  vremString = groupLog.get(i);
+            String[] record = vremString.replace("\"", "").split(",");
+            if (record.length > 0) {
+                Map<String, String> map = new HashMap<>();
+                for (int j = 0; j < record.length; j++) {
+                    String[] row = record[j].split(":");
+                    map.put(row[0], row[1]);
+                }
+                StringBuilder stringBuilder = new StringBuilder(map.size());
+                stringBuilder.append("Студент ")
+                        .append(map.get("фамилия"))
+                        .append(" получил ")
+                        .append(map.get("оценка"))
+                        .append(" по предмету ")
+                        .append(map.get("предмет"));
+                System.out.println(stringBuilder);
+            }
         }
     }
 
-    private static void Task3() {
-        System.out.println("Задача 3.");
+    private static List<String> listStudentRecords(String _incomingString) {
+        String findBeginSymbol = "{";
+        String findEndSymbol = "}";
+        List<String> result = new ArrayList<>();
+        Boolean flag = true;
+        int beginPosition = 0;
+        do {
+            int positionOpenCurlyBrace = _incomingString.indexOf(findBeginSymbol, beginPosition);
+            int positionClosedCurlyBrace = _incomingString.indexOf(findEndSymbol, beginPosition);
+            if (positionOpenCurlyBrace != -1 && positionClosedCurlyBrace != -1) {
+                String studentRecord = _incomingString.substring(positionOpenCurlyBrace + 1, positionClosedCurlyBrace - 1);
+                result.add(studentRecord);
+                beginPosition = ++positionClosedCurlyBrace;
+            } else {
+                flag = false;
+            }
+        } while (flag);
+        return result;
+    }
 
+    class Student {
+        private String name;
+        private int score;
+        private String subject;
+
+        Student(String _name, int _score, String _subject) {
+            this.name = _name;
+            this.score = _score;
+            this.subject = _subject;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
     }
 }
