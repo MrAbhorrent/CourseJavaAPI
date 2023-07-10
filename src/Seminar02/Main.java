@@ -46,14 +46,14 @@ public class Main {
     private static void Task1() {
         System.out.println("Задача 1.");
 
-        ArrayList keys = new ArrayList<>(4);
+        ArrayList<String> keys = new ArrayList<>(4);
         keys.add("name");
         keys.add("county");
         keys.add("city");
         keys.add("age");
         System.out.println(keys);
 
-        ArrayList value = new ArrayList<>(3);
+        ArrayList<String> value = new ArrayList<>(3);
         value.add("Ivanov");
         value.add("Russia");
         value.add("Moscow");
@@ -105,7 +105,7 @@ public class Main {
     private static int[] BubbleSort(int[] array) {
         String nameLogFile = "BubbleSort.log";
         int[] result = array;
-        Utils.SaveLogFile(nameLogFile, "Original array => " + Arrays.toString(result) + "\n");
+        Utils.SaveLogFile(nameLogFile, "Original array => " + Arrays.toString(result));
         for (int i = result.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (result[j] > result[j + 1]) {
@@ -124,13 +124,12 @@ public class Main {
         String incomingString = "[{\"фамилия\":\"Иванов\",\"оценка\":\"5\",\"предмет\":\"Математика\"},{\"фамилия\":\"Петрова\",\"оценка\":\"4\",\"предмет\":\"Информатика\"},{\"фамилия\":\"Краснов\",\"оценка\":\"5\",\"предмет\":\"Физика\"}]";
         List<String> groupLog = listStudentRecords(incomingString);
 
-        for (int i = 0; i < groupLog.size(); i++) {
-            String  vremString = groupLog.get(i);
+        for (String vremString : groupLog) {
             String[] record = vremString.replace("\"", "").split(",");
             if (record.length > 0) {
                 Map<String, String> map = new HashMap<>();
-                for (int j = 0; j < record.length; j++) {
-                    String[] row = record[j].split(":");
+                for (String s : record) {
+                    String[] row = s.split(":");
                     map.put(row[0], row[1]);
                 }
                 StringBuilder stringBuilder = new StringBuilder(map.size());
@@ -149,7 +148,7 @@ public class Main {
         String findBeginSymbol = "{";
         String findEndSymbol = "}";
         List<String> result = new ArrayList<>();
-        Boolean flag = true;
+        boolean flag = true;
         int beginPosition = 0;
         do {
             int positionOpenCurlyBrace = _incomingString.indexOf(findBeginSymbol, beginPosition);

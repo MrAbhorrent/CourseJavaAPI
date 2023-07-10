@@ -1,6 +1,7 @@
 package Utils;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class Utils {
@@ -16,7 +17,11 @@ public class Utils {
     public static void SaveLogFile(String filename, String saveLine) {
         File logfile = new File(filename);
         try (FileWriter fileWriter = new FileWriter(logfile, true)) {
-            fileWriter.append(saveLine);
+            fileWriter
+                    .append(String.valueOf(new Timestamp(System.currentTimeMillis())))
+                    .append(" : ")
+                    .append(saveLine)
+                    .append("\n");
             fileWriter.flush();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
